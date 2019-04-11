@@ -46,6 +46,8 @@
 
 	DELETE FROM customer WHERE firstname = 'Robert' AND lastname = 'Walker';
 
+
+
 3.1
 	Select CURRENT_TIME;
 	SELECT mediatypeid, LENGTH(name) FROM mediatype;
@@ -53,6 +55,7 @@
 3.2
 	SELECT AVG (total), TO_CHAR( AVG (total), 'FM999999999.00') as "Total Average" FROM invoice
 	SELECT * FROM track WHERE unitprice = (SELECT MAX(unitprice) FROM track);
+
 
 
 7.1
