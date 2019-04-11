@@ -1,0 +1,76 @@
+
+2.1
+	SELECT * FROM employee
+	SELECT * FROM employee WHERE lastname = 'King'
+	SELECT * FROM employee WHERE firstname = 'Andrew' AND reportsto is Null
+
+2.2
+	SELECT * FROM album ORDER BY title DESC;
+	SELECT firstName FROM customer ORDER BY city ASC;
+
+2.3
+	INSERT INTO genre (genreid, name) VALUES (102, 'NewGenreNumber3'), (103, 'NewGenreNumber4');
+	INSERT INTO employee (employeeid, lastname, firstname, reportsto) VALUES (100, 'First', 'First', 1), (101, 'Second', 'Second', 1);
+	INSERT INTO customer (customerid, firstname, lastname, email) VALUES (100, 'First', 'First', 'blank'), (101, 'Second', 'Second', 'blank');
+
+2.4
+	UPDATE customer SET firstname = 'Robert', lastname = 'Walker' WHERE lastname='Mitchell' AND firstname='Aaron';
+	UPDATE artist SET name = 'CCR' WHERE name = 'Creedence Clearwater Revival';
+
+2.5
+	SELECT * FROM invoice WHERE billingaddress LIKE 'T%';
+
+2.6
+	SELECT * FROM invoice WHERE total >= 15 AND total <= 50;
+	SELECT * FROM employee WHERE hiredate >= '2003-06-01' AND hiredate <= '2004-03-01';
+
+2.7
+	ALTER TABLE invoice
+	DROP CONSTRAINT fk_invoicecustomerid;
+   
+	ALTER TABLE invoice
+	ADD CONSTRAINT fk_invoicecustomerid
+		FOREIGN KEY (customerid)
+		REFERENCES customer (customerid)
+		ON DELETE CASCADE;
+
+
+	ALTER TABLE invoiceline
+	   DROP CONSTRAINT fk_invoicelineinvoiceid;
+	   
+	ALTER TABLE invoiceline
+	ADD CONSTRAINT fk_invoicelineinvoiceid
+		FOREIGN KEY (invoiceid)
+		REFERENCES invoice (invoiceid)
+		ON DELETE CASCADE;
+
+	DELETE FROM customer WHERE firstname = 'Robert' AND lastname = 'Walker';
+
+3.1
+	Select CURRENT_TIME;
+	SELECT mediatypeid, LENGTH(name) FROM mediatype;
+
+3.2
+	SELECT AVG (total), TO_CHAR( AVG (total), 'FM999999999.00') as "Total Average" FROM invoice
+	SELECT * FROM track WHERE unitprice = (SELECT MAX(unitprice) FROM track);
+
+
+7.1
+	SELECT concat(c.firstname,' ',c.lastname) as name, i.invoiceid FROM customer AS c INNER JOIN invoice AS i ON c.customerid = i.invoiceid;
+
+7.2
+	SELECT c.customerid, c.firstname, c.lastname, i.invoiceid, i.total FROM customer AS c INNER JOIN invoice AS i ON c.customerid = i.invoiceid;
+
+7.3
+	SELECT art.name, alb.title FROM album AS alb RIGHT JOIN artist AS art ON alb.artistid = art.artistid;
+
+7.4
+	SELECT * FROM album CROSS JOIN artist ORDER BY artist.name ASC;
+
+7.5
+	SELECT * FROM employee as emp1 INNER JOIN employee as emp2 ON emp1.employeeid = emp2.reportsto
+
+
+
+
+
