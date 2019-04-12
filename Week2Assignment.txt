@@ -53,7 +53,7 @@
 	SELECT mediatypeid, LENGTH(name) FROM mediatype;
 
 3.2
-	SELECT AVG (total), TO_CHAR( AVG (total), 'FM999999999.00') as "Total Average" FROM invoice
+	SELECT CAST(AVG(total) AS decimal(10, 2)) as "Total Average" FROM invoice
 	SELECT * FROM track WHERE unitprice = (SELECT MAX(unitprice) FROM track);
 
 
