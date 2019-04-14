@@ -54,6 +54,7 @@
 
 3.2
 	SELECT CAST(AVG(total) AS decimal(10, 2)) as "Total Average" FROM invoice
+	-- The average is cast to decimal because otherwise the precision is such that you cannot see it in posgresql
 	SELECT * FROM track WHERE unitprice = (SELECT MAX(unitprice) FROM track);
 
 
