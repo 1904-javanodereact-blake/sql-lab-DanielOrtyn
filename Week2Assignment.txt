@@ -1,80 +1,93 @@
 
-2.1
-	SELECT * FROM employee
-	SELECT * FROM employee WHERE lastname = 'King'
-	SELECT * FROM employee WHERE firstname = 'Andrew' AND reportsto is Null
-
-2.2
-	SELECT * FROM album ORDER BY title DESC;
-	SELECT firstName FROM customer ORDER BY city ASC;
-
-2.3
-	INSERT INTO genre (genreid, name) VALUES (102, 'NewGenreNumber3'), (103, 'NewGenreNumber4');
-	INSERT INTO employee (employeeid, lastname, firstname, reportsto) VALUES (100, 'First', 'First', 1), (101, 'Second', 'Second', 1);
-	INSERT INTO customer (customerid, firstname, lastname, email) VALUES (100, 'First', 'First', 'blank'), (101, 'Second', 'Second', 'blank');
-
-2.4
-	UPDATE customer SET firstname = 'Robert', lastname = 'Walker' WHERE lastname='Mitchell' AND firstname='Aaron';
-	UPDATE artist SET name = 'CCR' WHERE name = 'Creedence Clearwater Revival';
-
-2.5
-	SELECT * FROM invoice WHERE billingaddress LIKE 'T%';
-
-2.6
-	SELECT * FROM invoice WHERE total >= 15 AND total <= 50;
-	SELECT * FROM employee WHERE hiredate >= '2003-06-01' AND hiredate <= '2004-03-01';
-
-2.7
-	ALTER TABLE invoice
-	DROP CONSTRAINT fk_invoicecustomerid;
-   
-	ALTER TABLE invoice
-	ADD CONSTRAINT fk_invoicecustomerid
-		FOREIGN KEY (customerid)
-		REFERENCES customer (customerid)
-		ON DELETE CASCADE;
-
-
-	ALTER TABLE invoiceline
-	   DROP CONSTRAINT fk_invoicelineinvoiceid;
-	   
-	ALTER TABLE invoiceline
-	ADD CONSTRAINT fk_invoicelineinvoiceid
-		FOREIGN KEY (invoiceid)
-		REFERENCES invoice (invoiceid)
-		ON DELETE CASCADE;
-
-	DELETE FROM customer WHERE firstname = 'Robert' AND lastname = 'Walker';
+-- 2.0 SQL Queries
+-- In this section you will be performing various queries against the Oracle Chinook database.
+    -- 2.1 SELECT
+		-- Task – Select all records from the Employee table.
+			SELECT * FROM employee
+		-- Task – Select all records from the Employee table where last name is King.
+			SELECT * FROM employee WHERE lastname = 'King'
+		-- Task – Select all records from the Employee table where first name is Andrew and REPORTSTO is NULL.
+			SELECT * FROM employee WHERE firstname = 'Andrew' AND reportsto is Null
+		-- 2.2 ORDER BY
+		-- Task – Select all albums in Album table and sort result set in descending order by title.
+			SELECT * FROM album ORDER BY title DESC;
+		-- Task – Select first name from Customer and sort result set in ascending order by city
+			SELECT firstName FROM customer ORDER BY city ASC;
+    -- 2.3 INSERT INTO
+		-- Task – Insert two new records into Genre table
+			INSERT INTO genre (genreid, name) VALUES (102, 'NewGenreNumber3'), (103, 'NewGenreNumber4');
+		-- Task – Insert two new records into Employee table
+			INSERT INTO employee (employeeid, lastname, firstname, reportsto) VALUES (100, 'First', 'First', 1), (101, 'Second', 'Second', 1);
+		-- Task – Insert two new records into Customer table
+			INSERT INTO customer (customerid, firstname, lastname, email) VALUES (100, 'First', 'First', 'blank'), (101, 'Second', 'Second', 'blank');
+    -- 2.4 UPDATE
+		-- Task – Update Aaron Mitchell in Customer table to Robert Walter
+			UPDATE artist SET name = 'CCR' WHERE name = 'Creedence Clearwater Revival';
+		-- Task – Update name of artist in the Artist table “Creedence Clearwater Revival” to “CCR”
+			UPDATE customer SET firstname = 'Robert', lastname = 'Walker' WHERE lastname='Mitchell' AND firstname='Aaron';
+    -- 2.5 LIKE
+		-- Task – Select all invoices with a billing address like “T%”
+			SELECT * FROM invoice WHERE billingaddress LIKE 'T%';
+    -- 2.6 BETWEEN
+		-- Task – Select all invoices that have a total between 15 and 50
+			SELECT * FROM invoice WHERE total >= 15 AND total <= 50;
+		-- Task – Select all employees hired between 1st of June 2003 and 1st of March 2004
+			SELECT * FROM employee WHERE hiredate >= '2003-06-01' AND hiredate <= '2004-03-01';
+    -- 2.7 DELETE
+		-- Task – Delete a record in Customer table where the name is Robert Walter (There may be constraints that rely on this, find out how to resolve them).
+			ALTER TABLE invoice
+			DROP CONSTRAINT fk_invoicecustomerid;
+		   
+			ALTER TABLE invoice
+			ADD CONSTRAINT fk_invoicecustomerid
+				FOREIGN KEY (customerid)
+				REFERENCES customer (customerid)
+				ON DELETE CASCADE;
 
 
+			ALTER TABLE invoiceline
+			   DROP CONSTRAINT fk_invoicelineinvoiceid;
+			   
+			ALTER TABLE invoiceline
+			ADD CONSTRAINT fk_invoicelineinvoiceid
+				FOREIGN KEY (invoiceid)
+				REFERENCES invoice (invoiceid)
+				ON DELETE CASCADE;
 
-3.1
-	Select CURRENT_TIME;
-	SELECT mediatypeid, LENGTH(name) FROM mediatype;
-
-3.2
-	SELECT CAST(AVG(total) AS decimal(10, 2)) as "Total Average" FROM invoice
-	-- The average is cast to decimal because otherwise the precision is such that you cannot see it in posgresql
-	SELECT * FROM track WHERE unitprice = (SELECT MAX(unitprice) FROM track);
-
-
-
-7.1
-	SELECT concat(c.firstname,' ',c.lastname) as name, i.invoiceid FROM customer AS c INNER JOIN invoice AS i ON c.customerid = i.invoiceid;
-
-7.2
-	SELECT c.customerid, c.firstname, c.lastname, i.invoiceid, i.total FROM customer AS c INNER JOIN invoice AS i ON c.customerid = i.invoiceid;
-
-7.3
-	SELECT art.name, alb.title FROM album AS alb RIGHT JOIN artist AS art ON alb.artistid = art.artistid;
-
-7.4
-	SELECT * FROM album CROSS JOIN artist ORDER BY artist.name ASC;
-
-7.5
-	SELECT * FROM employee as emp1 INNER JOIN employee as emp2 ON emp1.employeeid = emp2.reportsto
-
-
-
-
-
+			DELETE FROM customer WHERE firstname = 'Robert' AND lastname = 'Walker';
+	
+	
+-- 3.0	SQL Functions
+-- In this section you will be using the Oracle system functions, as well as your own functions, to perform various actions against the database
+    -- 3.1 System Defined Functions
+		-- Task – Use a function that returns the current time.
+			Select CURRENT_TIME;
+		-- Task – Use a function that returns the length of a mediatype from the mediatype table
+			SELECT mediatypeid, LENGTH(name) FROM mediatype;
+    -- 3.2 System Defined Aggregate Functions
+		-- Task – Use a function that returns the average total of all invoices
+			SELECT CAST(AVG(total) AS decimal(10, 2)) as "Total Average" FROM invoice
+			-- The average is cast to decimal because otherwise the precision is such that you cannot see it in posgresql
+		-- Task – Use a function that returns the most expensive track
+			SELECT * FROM track WHERE unitprice = (SELECT MAX(unitprice) FROM track);
+		
+		
+-- 7.0 JOINS
+-- In this section you will be working with combing various tables through the use of joins. You will work with outer, inner, right, left, cross, and self joins.
+    -- 7.1 INNER
+		-- Task – Create an inner join that joins customers and orders and specifies the name of the customer and the invoiceId.
+			SELECT concat(c.firstname,' ',c.lastname) as name, i.invoiceid FROM customer AS c INNER JOIN invoice AS i ON c.customerid = i.invoiceid;
+    -- 7.2 OUTER
+		-- Task – Create an outer join that joins the customer and invoice table, specifying the CustomerId, firstname, lastname, invoiceId, and total.
+			SELECT c.customerid, c.firstname, c.lastname, i.invoiceid, i.total FROM customer AS c INNER JOIN invoice AS i ON c.customerid = i.invoiceid;
+    -- 7.3 RIGHT
+		-- Task – Create a right join that joins album and artist specifying artist name and title.
+			SELECT art.name, alb.title FROM album AS alb RIGHT JOIN artist AS art ON alb.artistid = art.artistid;
+    -- 7.4 CROSS
+		-- Task – Create a cross join that joins album and artist and sorts by artist name in ascending order.
+			SELECT * FROM album CROSS JOIN artist ORDER BY artist.name ASC;
+    -- 7.5 SELF
+		-- Task – Perform a self-join on the employee table, joining on the reportsto column.
+			SELECT * FROM employee as emp1 INNER JOIN employee as emp2 ON emp1.employeeid = emp2.reportsto
+	
+	
